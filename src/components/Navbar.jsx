@@ -7,6 +7,7 @@ const Container = styled.div`
 background-color: rgb(0, 13,58)
 `;
 
+
 const NavList = styled.ul`
 padding : 1rem;
 display: flex;
