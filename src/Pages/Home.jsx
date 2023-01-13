@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import Homing from '../components/Homing';
 import Navbar from '../components/Navbar';
 import Spells from '../components/Spells';
@@ -12,6 +13,7 @@ const Home = () => {
       <Homing />
       <Wizard/>
       <Spells/>
+      <Footer/>
     </div>
   );
 };
