@@ -8,7 +8,7 @@ const Container = styled.div`
  background-image : url(${wand});
  background-size : 190% 100%;
  height : 150vh;
- ${desktop({height: "80vh", backgroundSize: "100% 100%"})}
+ ${desktop({height: "90vh", backgroundSize: "100% 100%"})}
 
 `;
 const Title = styled.p`
