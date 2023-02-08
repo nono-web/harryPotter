@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import styled from 'styled-components';
 import imgHome from '../assets/castle.jpg';
 import { desktop } from '../responsive';
@@ -109,26 +110,23 @@ const Button = styled.button`
   ${desktop({ margin: '1rem ', width: '20rem' })}
 `;
 
-const ErrorYup = styled.p `
-color : tomato;
-text-align : center;
-font-size : 0.9rem;
-&::before {
+const ErrorYup = styled.p`
+  color: tomato;
+  text-align: center;
+  font-size: 0.9rem;
+  &::before {
     display: inline;
     content: '⚠';
   }
   ${desktop({ fontSize: '1.1rem' })}
-`
+`;
 
 const Contact = () => {
+  const navigate = useNavigate();
 
-
-
-const navigate = useNavigate()
-
-const onHome = ()=> {
-  navigate('/')
-}
+  const onHome = () => {
+    navigate('/');
+  };
 
   const schema = yup
     .object({
@@ -154,10 +152,24 @@ const onHome = ()=> {
     handleSubmit,
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = ()=> {
-    alert("Thank you for completing the form, a reply will be given to you as soon as possible")
-  
-  }
+  const onSubmit = () => {
+    alert(
+      'Thank you for completing the form, a reply will be given to you as soon as possible'
+    );
+  };
+
+  const form = useRef();
+
+  const sendEmail = () => {
+   
+
+    emailjs.sendForm('service_qt2ycb9', 'template_tyllwzh', form.current, 'user_mHtCtPRmfXansncIGdpdq')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+  };
   return (
     <Container>
       <Wrapper>
@@ -166,49 +178,71 @@ const onHome = ()=> {
           For more information about Harry Potter, please contact me by
           completing this form
         </Title>
-        <Form   onSubmit={handleSubmit(onSubmit)}>
+        <Form ref={form} onSubmit={handleSubmit(onSubmit)}>
           <FormContainer>
-            {errors.lastname &&(<ErrorYup>{errors.lastname.message}</ErrorYup>)}
+            {errors.lastname && <ErrorYup>{errors.lastname.message}</ErrorYup>}
             <Label>
               Lastname* :
-              <Input type="text" placeholder="Lastname" name="lastname" {...register('lastname')} />
+              <Input
+                type="text"
+                placeholder="Lastname"
+                name="lastname"
+                {...register('lastname')}
+              />
             </Label>
           </FormContainer>
           <FormContainer>
-          {errors.firstname &&(<ErrorYup>{errors.firstname.message}</ErrorYup>)}
+            {errors.firstname && (
+              <ErrorYup>{errors.firstname.message}</ErrorYup>
+            )}
             <Label>
               Firstname* :
-              <Input type="text" placeholder="Firstname" name="firstname" {...register('firstname')}  />
+              <Input
+                type="text"
+                placeholder="Firstname"
+                name="firstname"
+                {...register('firstname')}
+              />
             </Label>
           </FormContainer>
           <FormContainer>
-          {errors.email &&(<ErrorYup>{errors.email.message}</ErrorYup>)}
+            {errors.email && <ErrorYup>{errors.email.message}</ErrorYup>}
             <Label>
               Email* :
-              <Input type="text" placeholder="Email" name="email"  {...register('email')} />
+              <Input
+                type="text"
+                placeholder="Email"
+                name="email"
+                {...register('email')}
+              />
             </Label>
           </FormContainer>
           <FormContainer>
-          {errors.phone &&(<ErrorYup>{errors.phone.message}</ErrorYup>)}
+            {errors.phone && <ErrorYup>{errors.phone.message}</ErrorYup>}
             <Label>
               Phone* :
-              <Input type="text" placeholder="Phone" name="phone" {...register('phone')}  />
+              <Input
+                type="text"
+                placeholder="Phone"
+                name="phone"
+                {...register('phone')}
+              />
             </Label>
           </FormContainer>
           <FormContainer>
-          {errors.message &&(<ErrorYup>{errors.message.message}</ErrorYup>)}
+            {errors.message && <ErrorYup>{errors.message.message}</ErrorYup>}
             <Label>
               Message* :
               <Message
                 cols="40"
                 rows="10"
                 placeholder="Please enter a message"
-                {...register('message')} 
+                {...register('message')}
               />
             </Label>
           </FormContainer>
           <ButtonContainer>
-            <Button>Send</Button>
+            <Button onClick={sendEmail}>Send</Button>
             <Button onClick={onHome}>Home</Button>
           </ButtonContainer>
         </Form>
